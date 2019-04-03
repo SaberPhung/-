@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <time.h>
 #include "screen.h"
@@ -8,9 +9,10 @@ int main(){
 	FILE *f;
 	short sd[RATE]; // for all samples in 1 sec
 	while(1){
+		int ret = system(CMD);
+		if(ret == SIGINT) break;
 		system(CMD);
 		f = fopen("test.wav", "r");
-		
 		clearScreen();
 		setColors(YELLOW, bg(BLUE));
 		if(f == NULL){
