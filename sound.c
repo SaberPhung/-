@@ -66,9 +66,10 @@ void displayWAVHDR(struct WAVHDR h){
 	setColors(RED, bg(YELLOW));
 #endif
 }
+
 void fillID(char *dst, const char *m){
 	for(int i =0; i<4;i++)
-		*dst = *m++; // copy m to dst*
+		*dst++ = *m++; // copy m to dst*
 }
 
 void testTone(int c, int f, float d){
@@ -84,6 +85,7 @@ void testTone(int c, int f, float d){
 		printf("duration is not okay.\n");
 		return;
 	}
+	printf("%d %d %f\n", f, c, d);
 	struct WAVHDR h; // we need to prepare a WAV header
 	fillID(h.ChunkID, "RIFF");
 	fillID(h.Format, "WAVE");
@@ -102,13 +104,15 @@ void testTone(int c, int f, float d){
 	}
 	// prepare sound data
 	short data[441000]; //[d * h.SampleRate];
+
 	for(int i =0; i<d*h.SampleRate; i++){
-		data[i] = 32767.0 * sin(2 * PI * i*f/44100);
+		data[i] = 32767.0 * sin(2 * PI * i * f /44100);
 	}
+
 	FILE *fp = fopen("testTone.wav", "w");
 	if(fp == NULL){
 		printf("We cannot open the file\n");
-	return;
+		return;
 	}
 	fwrite(&h, sizeof(h), 1, fp); // write the header
 	fwrite(data, d*h.SampleRate*sizeof(short), 1, fp);
