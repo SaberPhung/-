@@ -1,9 +1,21 @@
 #define UNICODE
-// constant definitions
-enum COLORS{BLACK=30, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE};
-#define bg(c) (c+10) //macro defination
+
+enum COLORS{BLACK=30,RED,GREEN,YELLOW,BLUE,MAGENTA,CYAN,WHITE};
+
+#define bg(c) (c+10)
+
+#define COL 80
+
+#define BAR "\u2590"
+
+
+
 // function declarations
+
 void clearScreen(void);
-void setColors(short fg, short bg);
+
+void setColors(short, short);
+
 void resetColors(void);
+
 void barChart(int []);

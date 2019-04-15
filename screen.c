@@ -1,34 +1,71 @@
-#include<stdio.h>
-#include"screen.h"
+// this file contains screen functions. They are used to display
 
-void barChart(int a[])
-{
-	int i,j;  // counters
-	for(i =0; i<80; i++){ // for 80 columns
-		for(j=0; j<a[i]/3; j++){
-			printf("\033[%d;%dH" , 35-j, i+1);
-#ifdef UNICODE  // conditional compiling
-			printf("%s", "\u2590");
+// sound levels on a PUTTY screen as a bar chart
+
+#include <stdio.h>
+
+#include "screen.h"
+
+
+
+void barChart(int db[]){
+
+	int i, j;
+
+	
+
+	for(i=0; i<COL; i++){	// for 80 columns
+
+		for(j=0; j<db[i]/3; j++){
+
+			if(db[i]>60 && j>20) setColors(WHITE, bg(YELLOW));
+
+			else setColors(RED, bg(YELLOW));
+
+			printf("\033[%d;%dH", 35-j, i+1);
+
+#ifdef UNICODE			// conditional compilation
+
+			printf("%s", BAR);
+
 #else
-			printf("%c", ' ');
+
+			printf("%c", '*');
+
 #endif
+
 		}
+
 	}
+
 }
 
-void clearScreen(void)
-{
+
+
+void clearScreen(void){
+
 	printf("\033[2J");
-	fflush(stdout); //output the escape sequence immediately
-}
-void setColors(short fg, short bg)
-{
-	printf("\033[%d;%d;1m", fg, bg);
-	fflush(stdout);
+
+	fflush(stdout);		// for remote terminal (such as PUTTY)
+
 }
 
-void resetColors(void)
-{
-	printf("\033[0m");
+
+
+void setColors(short bg, short fg){
+
+	printf("\033[%d;%d;1m", bg, fg);
+
 	fflush(stdout);
+
+}
+
+
+
+void resetColors(void){
+
+	printf("\033[0m");
+
+	fflush(stdout);
+
 }
