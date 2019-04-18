@@ -66,12 +66,10 @@ void displayWAVHDR(struct WAVHDR h){
 	setColors(RED, bg(YELLOW));
 #endif
 }
-
 void fillID(char *dst, const char *m){
 	for(int i =0; i<4;i++)
 		*dst++ = *m++; // copy m to dst*
 }
-
 void testTone(int c, int f, float d){
 	if(f<30 || f> 16000){
 		printf("frequency is out of range. \n");
@@ -104,11 +102,9 @@ void testTone(int c, int f, float d){
 	}
 	// prepare sound data
 	short data[441000]; //[d * h.SampleRate];
-
 	for(int i =0; i<d*h.SampleRate; i++){
 		data[i] = 32767.0 * sin(2 * PI * i * f /44100);
 	}
-
 	FILE *fp = fopen("testTone.wav", "w");
 	if(fp == NULL){
 		printf("We cannot open the file\n");
@@ -119,4 +115,3 @@ void testTone(int c, int f, float d){
 	fclose(fp);
 	printf("testTone is generated!\n");
 }
-
